@@ -34,7 +34,6 @@ class window:
             image = resize(image, 1-x*0.1, 1-x*0.1)
             imageExp = ImageTk.PhotoImage(image)
             self.canvas.delete(self.rasp_logo)
-            print(x)
             self.rasp_logo = self.canvas.create_image(960,540,image=imageExp,anchor=tkinter.CENTER)
             self.root.update()
         
@@ -43,15 +42,26 @@ class window:
         
 img = {}
 expImg = {}
+icons = {}
+expIcons = {}
 root = window()
 for x in os.listdir("img"):
     if x != "logo.png":
         name = x[0:len(x)-4]
-        original = Image.open(f"img/{x}")
-        img[f"S{name}"] = resize(original, 0.25, 0.25)
-        expImg[f"S{name}"] = ImageTk.PhotoImage(img[f"S{name}"])
-        
-        img[name] = original
+        img[name] = Image.open(f"img/{x}")#change this for a windows port
         expImg[name] = ImageTk.PhotoImage(img[name])
+        
+for x in os.listdir("icons"):
+    name = x[0:len(x)-4]
+    image = Image.open(f"icons/{x}")#change this for a windows port
+    image = image.resize((300,300))#might change when developing the ui
+    icons[name] = image
+    expIcons[name] = ImageTk.PhotoImage(icons[name])
+    
+    name = x[0:len(x)-4]
+    image = Image.open(f"icons/{x}")#change this for a windows port
+    image = image.resize((100,100))#might change when developing the ui
+    icons[f"S{name}"] = image
+    expIcons[f"S{name}"] = ImageTk.PhotoImage(icons[f"S{name}"])
+    
 root.logo_disapear()
-tkinter.mainloop()
