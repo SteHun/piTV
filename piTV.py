@@ -36,6 +36,15 @@ class window:
             self.canvas.delete(self.rasp_logo)
             self.rasp_logo = self.canvas.create_image(960,540,image=imageExp,anchor=tkinter.CENTER)
             self.root.update()
+            
+        self.canvas.create_image(0,0,image=expIcons["netflix"],anchor=tkinter.NW)
+        self.canvas.create_image(300,0,image=expIcons["kodi"],anchor=tkinter.NW)
+        self.canvas.create_image(600,0,image=expIcons["shutdown"],anchor=tkinter.NW)
+        self.canvas.create_image(900,0,image=expIcons["firefox"],anchor=tkinter.NW)
+        self.canvas.create_image(0,300,image=expIcons["Snetflix"],anchor=tkinter.NW)
+        self.canvas.create_image(100,300,image=expIcons["Skodi"],anchor=tkinter.NW)
+        self.canvas.create_image(200,300,image=expIcons["Sshutdown"],anchor=tkinter.NW)
+        self.canvas.create_image(300,300,image=expIcons["Sfirefox"],anchor=tkinter.NW)
         
 
                 
