@@ -44,11 +44,12 @@ expImg = {}
 icons = {}
 expIcons = {}
 root = window()
-for x in os.listdir("img"):
-    img["small_logo"] = Image.open("img/logo.png")#change this for a windows port
-    img["small_logo"] = resize(img["small_logo"],0.2,0.2)
-    expImg["small_logo"] = ImageTk.PhotoImage(img["small_logo"])
-        
+#image loading
+img["small_logo"] = Image.open("img/logo.png")#change this for a windows port
+img["small_logo"] = resize(img["small_logo"],0.2,0.2)
+expImg["small_logo"] = ImageTk.PhotoImage(img["small_logo"])
+
+#icon loading
 for x in os.listdir("icons"):
     name = x[0:len(x)-4]
     image = Image.open(f"icons/{x}")#change this for a windows port
