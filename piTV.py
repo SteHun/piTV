@@ -16,38 +16,28 @@ class window:
     def __init__(self):
         global img
         global expImg
-        img["logo"] = Image.open("img/logo.png")
-        img["logo"] = resize(img["logo"], 0.5, 0.5)
+        img["splash"] = Image.open("img/logo.png")
+        img["splash"] = resize(img["splash"], 0.5, 0.5)
         
         
         self.root = tkinter.Tk()
-        expImg["logo"] = ImageTk.PhotoImage(img["logo"])
+        expImg["splash"] = ImageTk.PhotoImage(img["splash"])
         self.root.attributes("-fullscreen", True)
         self.canvas = tkinter.Canvas(self.root, width=1920, height= 1080, highlightthickness=0, bg="blue")
-        self.rasp_logo = self.canvas.create_image(960,540, image=expImg["logo"], anchor = tkinter.CENTER)
+        self.rasp_logo = self.canvas.create_image(960,540, image=expImg["splash"], anchor = tkinter.CENTER)
         self.canvas.pack()
         self.root.update()
     
     def logo_disapear(self):
-        image = img["logo"]
+        image = img["splash"]
         for x in range(0,9):
             image = resize(image, 1-x*0.1, 1-x*0.1)
             imageExp = ImageTk.PhotoImage(image)
             self.canvas.delete(self.rasp_logo)
             self.rasp_logo = self.canvas.create_image(960,540,image=imageExp,anchor=tkinter.CENTER)
             self.root.update()
+        self.canvas.create_image(0,0,image=expImg["small_logo"],anchor=tkinter.NW)
             
-        self.canvas.create_image(0,0,image=expIcons["netflix"],anchor=tkinter.NW)
-        self.canvas.create_image(300,0,image=expIcons["kodi"],anchor=tkinter.NW)
-        self.canvas.create_image(600,0,image=expIcons["shutdown"],anchor=tkinter.NW)
-        self.canvas.create_image(900,0,image=expIcons["firefox"],anchor=tkinter.NW)
-        self.canvas.create_image(0,300,image=expIcons["Snetflix"],anchor=tkinter.NW)
-        self.canvas.create_image(100,300,image=expIcons["Skodi"],anchor=tkinter.NW)
-        self.canvas.create_image(200,300,image=expIcons["Sshutdown"],anchor=tkinter.NW)
-        self.canvas.create_image(300,300,image=expIcons["Sfirefox"],anchor=tkinter.NW)
-        
-
-                
         
 img = {}
 expImg = {}
@@ -55,10 +45,9 @@ icons = {}
 expIcons = {}
 root = window()
 for x in os.listdir("img"):
-    if x != "logo.png":
-        name = x[0:len(x)-4]
-        img[name] = Image.open(f"img/{x}")#change this for a windows port
-        expImg[name] = ImageTk.PhotoImage(img[name])
+    img["small_logo"] = Image.open("img/logo.png")#change this for a windows port
+    img["small_logo"] = resize(img["small_logo"],0.2,0.2)
+    expImg["small_logo"] = ImageTk.PhotoImage(img["small_logo"])
         
 for x in os.listdir("icons"):
     name = x[0:len(x)-4]
