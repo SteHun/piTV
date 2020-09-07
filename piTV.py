@@ -3,6 +3,7 @@ import tkinter
 from PIL import Image, ImageTk
 import time
 import os
+from sys import platform
 
 
 
@@ -16,7 +17,10 @@ class window:
     def __init__(self):
         global img
         global expImg
-        img["splash"] = Image.open("img/logo.png")
+        if platform == "win32":
+            img["splash"] = Image.open("img\\logo.png")
+        else:
+            img["splash"] = Image.open("img/logo.png")
         img["splash"] = resize(img["splash"], 0.5, 0.5)
         
         
@@ -45,20 +49,29 @@ icons = {}
 expIcons = {}
 root = window()
 #image loading
-img["small_logo"] = Image.open("img/logo.png")#change this for a windows port
+if platform == "win32":
+    img["small_logo"] = Image.open("img\\logo.png")
+else:
+    img["small_logo"] = Image.open("img/logo.png")
 img["small_logo"] = resize(img["small_logo"],0.2,0.2)
 expImg["small_logo"] = ImageTk.PhotoImage(img["small_logo"])
 
 #icon loading
 for x in os.listdir("icons"):
     name = x[0:len(x)-4]
-    image = Image.open(f"icons/{x}")#change this for a windows port
+    if platform == "win32":
+        image = Image.open(f"icons\\{x}")
+    else:
+        image = Image.open(f"icons/{x}")
     image = image.resize((300,300))#might change when developing the ui
     icons[name] = image
     expIcons[name] = ImageTk.PhotoImage(icons[name])
     
     name = x[0:len(x)-4]
-    image = Image.open(f"icons/{x}")#change this for a windows port
+    if platform == "win32":
+        image = Image.open(f"icons\\{x}")#change this for a windows port
+    else:
+        image = Image.open(f"icons/{x}")#change this for a windows port
     image = image.resize((100,100))#might change when developing the ui
     icons[f"S{name}"] = image
     expIcons[f"S{name}"] = ImageTk.PhotoImage(icons[f"S{name}"])
