@@ -40,7 +40,10 @@ class window:
             self.canvas.delete(self.rasp_logo)
             self.rasp_logo = self.canvas.create_image(960,540,image=imageExp,anchor=tkinter.CENTER)
             self.root.update()
+    def start_wheel(self):
         self.canvas.create_image(0,0,image=expImg["small_logo"],anchor=tkinter.NW)
+        self.canvas.create_image(960,540,image=expImg["plus"],anchor=tkinter.CENTER)
+        
             
         
 img = {}
@@ -55,6 +58,11 @@ else:
     img["small_logo"] = Image.open("img/logo.png")
 img["small_logo"] = resize(img["small_logo"],0.2,0.2)
 expImg["small_logo"] = ImageTk.PhotoImage(img["small_logo"])
+if platform == "win32":
+    img["plus"] = Image.open("img\\plus.png")
+else:
+    img["plus"] = Image.open("img/plus.png")
+expImg["plus"] = ImageTk.PhotoImage(img["plus"])
 
 #icon loading
 for x in os.listdir("icons"):
@@ -69,11 +77,13 @@ for x in os.listdir("icons"):
     
     name = x[0:len(x)-4]
     if platform == "win32":
-        image = Image.open(f"icons\\{x}")#change this for a windows port
+        image = Image.open(f"icons\\{x}")
     else:
-        image = Image.open(f"icons/{x}")#change this for a windows port
+        image = Image.open(f"icons/{x}")
     image = image.resize((100,100))#might change when developing the ui
     icons[f"S{name}"] = image
     expIcons[f"S{name}"] = ImageTk.PhotoImage(icons[f"S{name}"])
     
 root.logo_disapear()
+root.start_wheel()
+root.root.mainloop()
