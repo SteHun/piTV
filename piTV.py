@@ -12,7 +12,8 @@ def resize(img, X, Y):
     return resized
 
 class icon:
-    def __init__(self,img,direction,canvas):
+    def __init__(self,img,direction,canvas,command):
+        self.command = command
         self.img = img
         self.direction = direction
         self.canvas = canvas
@@ -69,6 +70,8 @@ class icon:
             elif self.direction == 'r':
                 self.canvas.move(self.id,-100,0)
                 self.x -= 100
+    def run(self):
+        os.system(self.command)
 
 class window:
     def __init__(self):
@@ -105,10 +108,10 @@ class window:
         #self.directions["netflix"]=self.canvas.create_image(860,540,image=expIcons["Snetflix"],anchor=tkinter.CENTER)
         #self.directions["kodi"]=self.canvas.create_image(1060,540,image=expIcons["Skodi"],anchor=tkinter.CENTER)
         #self.directions["firefox"]=self.canvas.create_image(960,640,image=expIcons["Sfirefox"],anchor=tkinter.CENTER)
-        self.wheel_items["up"] = icon(expIcons["Sshutdown"],"u",self.canvas)
-        self.wheel_items["down"] = icon(expIcons["Sfirefox"],"d",self.canvas)
-        self.wheel_items["left"] = icon(expIcons["Snetflix"],"l",self.canvas)
-        self.wheel_items["right"] = icon(expIcons["Skodi"],"r",self.canvas)
+        self.wheel_items["up"] = icon(expIcons["Sshutdown"],"u",self.canvas,"insert")
+        self.wheel_items["down"] = icon(expIcons["Sfirefox"],"d",self.canvas,"command")
+        self.wheel_items["left"] = icon(expIcons["Snetflix"],"l",self.canvas,"here")
+        self.wheel_items["right"] = icon(expIcons["Skodi"],"r",self.canvas,"plz")
         self.selection = None
         keyboard.add_hotkey('up', root.up)
         keyboard.add_hotkey('down', root.down)
@@ -141,7 +144,8 @@ class window:
         self.wheel_items["right"].select()
         self.wheel_items["up"].unselect()
     def submit(self):
-        pass
+        if self.selection != None:
+            self.wheel_items[self.selection].run()
 
 
 
