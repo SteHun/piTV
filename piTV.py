@@ -43,32 +43,48 @@ class icon:
     def select(self):
         if self.y == self.y_init:
             if self.direction == 'u':
-                self.canvas.move(self.id,0,-100)
+                for _ in range(10):
+                    self.canvas.move(self.id,0,-10)
+                    time.sleep(0.001)
                 self.y -=100
             elif self.direction == 'd':
-                self.canvas.move(self.id,0,100)
+                for _ in range(10):
+                    self.canvas.move(self.id,0,10)
+                    time.sleep(0.001)
                 self.y += 100
         if self.x == self.x_init:
             if self.direction == 'l':
-                self.canvas.move(self.id,-100,0)
+                for _ in range(10):
+                    self.canvas.move(self.id,-10,0)
+                    time.sleep(0.001)
                 self.x -= 100
             elif self.direction == 'r':
-                self.canvas.move(self.id,100,0)
+                for _ in range(10):
+                    self.canvas.move(self.id,10,0)
+                    time.sleep(0.001)
                 self.x += 100
     def unselect(self):
         if self.y != self.y_init:
             if self.direction == 'u':
-                self.canvas.move(self.id,0,100)
+                for _ in range(10):
+                    self.canvas.move(self.id,0,10)
+                    time.sleep(0.001)
                 self.y += 100
             elif self.direction == 'd':
-                self.canvas.move(self.id,0,-100)
+                for _ in range(10):
+                    self.canvas.move(self.id,0,-10)
+                    time.sleep(0.001)
                 self.y -= 100
         if self.x != self.x_init:
             if self.direction == 'l':
-                self.canvas.move(self.id,100,0)
+                for _ in range(10):
+                    self.canvas.move(self.id,10,0)
+                    time.sleep(0.001)
                 self.x += 100
             elif self.direction == 'r':
-                self.canvas.move(self.id,-100,0)
+                for _ in range(10):
+                    self.canvas.move(self.id,-10,0)
+                    time.sleep(0.001)
                 self.x -= 100
     def run(self):
         os.system(self.command)
@@ -108,7 +124,7 @@ class window:
         #self.directions["netflix"]=self.canvas.create_image(860,540,image=expIcons["Snetflix"],anchor=tkinter.CENTER)
         #self.directions["kodi"]=self.canvas.create_image(1060,540,image=expIcons["Skodi"],anchor=tkinter.CENTER)
         #self.directions["firefox"]=self.canvas.create_image(960,640,image=expIcons["Sfirefox"],anchor=tkinter.CENTER)
-        self.wheel_items["up"] = icon(expIcons["Sshutdown"],"u",self.canvas,"insert")
+        self.wheel_items["up"] = icon(expIcons["Sshutdown"],"u",self.canvas,"sudo shutdown now")
         self.wheel_items["down"] = icon(expIcons["Sfirefox"],"d",self.canvas,"command")
         self.wheel_items["left"] = icon(expIcons["Snetflix"],"l",self.canvas,"here")
         self.wheel_items["right"] = icon(expIcons["Skodi"],"r",self.canvas,"plz")
@@ -127,25 +143,32 @@ class window:
         self.wheel_items["up"].select()
     def down(self):
         self.selection = "down"
-        self.wheel_items["down"].select()
         self.wheel_items["left"].unselect()
         self.wheel_items["right"].unselect()
         self.wheel_items["up"].unselect()
+        self.wheel_items["down"].select()
     def left(self):
         self.selection = "left"
         self.wheel_items["down"].unselect()
-        self.wheel_items["left"].select()
         self.wheel_items["right"].unselect()
         self.wheel_items["up"].unselect()
+        self.wheel_items["left"].select()
     def right(self):
         self.selection = "right"
         self.wheel_items["down"].unselect()
         self.wheel_items["left"].unselect()
-        self.wheel_items["right"].select()
         self.wheel_items["up"].unselect()
+        self.wheel_items["right"].select()
+
     def submit(self):
         if self.selection != None:
+            keyboard.remove_all_hotkeys()
             self.wheel_items[self.selection].run()
+            keyboard.add_hotkey('up', root.up)
+            keyboard.add_hotkey('down', root.down)
+            keyboard.add_hotkey('left', root.left)
+            keyboard.add_hotkey('right', root.right)
+            keyboard.add_hotkey('enter', root.submit)
 
 
 
