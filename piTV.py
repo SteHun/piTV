@@ -4,6 +4,8 @@ from PIL import Image, ImageTk
 import time
 import os
 from sys import platform
+def on_closing():
+    pass
 
 
 
@@ -101,6 +103,7 @@ class window:
         
         
         self.root = tkinter.Tk()
+        self.root.protocol("WM_DELETE_WINDOW", on_closing)
         expImg["splash"] = ImageTk.PhotoImage(img["splash"])
         self.root.attributes("-fullscreen", True)
         self.canvas = tkinter.Canvas(self.root, width=1920, height= 1080, highlightthickness=0, bg="blue")
@@ -125,9 +128,9 @@ class window:
         #self.directions["kodi"]=self.canvas.create_image(1060,540,image=expIcons["Skodi"],anchor=tkinter.CENTER)
         #self.directions["firefox"]=self.canvas.create_image(960,640,image=expIcons["Sfirefox"],anchor=tkinter.CENTER)
         self.wheel_items["up"] = icon(expIcons["Sshutdown"],"u",self.canvas,"sudo shutdown now")
-        self.wheel_items["down"] = icon(expIcons["Sfirefox"],"d",self.canvas,"command")
-        self.wheel_items["left"] = icon(expIcons["Snetflix"],"l",self.canvas,"here")
-        self.wheel_items["right"] = icon(expIcons["Skodi"],"r",self.canvas,"plz")
+        self.wheel_items["down"] = icon(expIcons["Sfirefox"],"d",self.canvas,"su pi <<'END'\nfirefox-esr\nEND")
+        self.wheel_items["left"] = icon(expIcons["Snetflix"],"l",self.canvas,"su pi <<'END'\nchromium-browser %U --kiosk --user-agent=\"Mozilla/5.0 (X11; CrOS armv7l 12371.89.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36\" www.netflix.com\nEND")
+        self.wheel_items["right"] = icon(expIcons["Skodi"],"r",self.canvas,"su pi <<'END'\nkodi\nEND")
         self.selection = None
         keyboard.add_hotkey('up', root.up)
         keyboard.add_hotkey('down', root.down)
