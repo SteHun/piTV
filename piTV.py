@@ -3,15 +3,67 @@ import tkinter
 from PIL import Image, ImageTk
 import time
 import os
+os.chdir("/home/pi/piTV")
 from sys import platform
 def on_closing():
     pass
 
 
-
 def resize(img, X, Y):
     resized = img.resize((round(img.size[0]*X), round(img.size[1]*Y)))
     return resized
+warpzone_done = False
+warpzone_exit = False
+class warpzone:
+    @staticmethod
+    def start(canvas):
+        keyboard.remove_all_hotkeys()
+        secret_text1 = canvas.create_text(1000,100,fill="white",font="sans-serif 25",text="WELCOME TO WARP ZONE!")
+        secret_text2 = canvas.create_text(1000,130,fill="white",font="sans-serif 25",text="press the key of the option you want to choose")
+        secret_text3 = canvas.create_text(1000,160,fill="white",font="sans-serif 25",text="[W]at is dit? Waar is mijn Netflix gebleven?(druk op [W])")
+        secret_text4 = canvas.create_text(1000,190,fill="white",font="sans-serif 25",text="[E]xlpore the desktop! Close this user-friendly menu!")
+        secret_text5 = canvas.create_text(1000,220,fill="white",font="sans-serif 25",text="[T]ermial. Hackers only!")
+        secret_text6 = canvas.create_text(1000,250,fill="white",font="sans-serif 25",text="[R]eboot! No, not reshoe.")
+        canvas.update()
+        warpzone.start_hotkeys()
+        global warpzone_done
+        global warpzone_exit
+        while not warpzone_done:
+            canvas.update()
+            time.sleep(0.1)
+        if warpzone_exit:
+            exit()
+        keyboard.remove_all_hotkeys()
+        canvas.delete(secret_text1)
+        canvas.delete(secret_text2)
+        canvas.delete(secret_text3)
+        canvas.delete(secret_text4)
+        canvas.delete(secret_text5)
+        canvas.delete(secret_text6)
+    @staticmethod
+    def exit():
+        global warpzone_done
+        warpzone_done = True
+    @staticmethod
+    def start_hotkeys():
+        keyboard.add_hotkey("w",warpzone.exit)
+        keyboard.add_hotkey("e",warpzone.close_app)
+        keyboard.add_hotkey("t",warpzone.start_terminal)
+        keyboard.add_hotkey("r",warpzone.reboot)
+    @staticmethod
+    def close_app():
+        global warpzone_done
+        global warpzone_exit
+        warpzone_exit = True
+        warpzone_done = True
+        
+    @staticmethod
+    def start_terminal():
+        print("term")
+        os.system("su pi <<'END'\nlxterminal\nEND)")
+    @staticmethod
+    def reboot():
+        os.system("sudo reboot")
 
 class icon:
     def __init__(self,img,direction,canvas,command):
@@ -120,6 +172,8 @@ class window:
             self.rasp_logo = self.canvas.create_image(960,540,image=imageExp,anchor=tkinter.CENTER)
             self.root.update()
     def start_wheel(self):
+        if keyboard.is_pressed("d"):
+            warpzone.start(self.canvas)
         self.wheel_items = {}
         self.canvas.create_image(0,0,image=expImg["small_logo"],anchor=tkinter.NW)
         self.canvas.create_image(960,540,image=expImg["plus"],anchor=tkinter.CENTER)
@@ -138,6 +192,9 @@ class window:
         keyboard.add_hotkey('right', root.right)
         keyboard.add_hotkey('enter', root.submit)
         self.root.mainloop()
+
+
+            
     def up(self):
         self.selection = "up"
         self.wheel_items["down"].unselect()
